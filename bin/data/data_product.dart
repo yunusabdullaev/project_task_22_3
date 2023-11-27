@@ -8,7 +8,7 @@ List<Product> userListFromData(String data) =>
 class Product {
   late String productId;
   late String productName;
-  late double price;
+  late num price;
   late bool inStock;
   late Details details;
   late Availability availability;
@@ -46,7 +46,7 @@ class Availability {
 
   Availability.fromJson(Map<String, dynamic> json) {
     online = json["online"];
-    offline = Offline.fromJson(json["Offline"]);
+    offline = Offline.fromJson(json["offline"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -64,9 +64,9 @@ class Availability {
 }
 
 class Offline {
-  late int store1;
-  late int store2;
-  late int store3;
+  late num store1;
+  late num store2;
+  late num store3;
 
   Offline.fromJson(Map<String, dynamic> json) {
     store1 = json["store1"];
@@ -119,21 +119,24 @@ class Specs {
   late Screen screen;
   late Storage storage;
   late Ram ram;
-  late Camera camera;
+  late Camera? camera;
+  late Graphics? graphics;
   late Battery battery;
   late OperatingSystem operatingSystem;
   late Connectivity connectivity;
   late Warranty warranty;
 
   Specs.fromJson(Map<String, dynamic> json) {
-    screen = Screen.fromJson(json["Screen"]);
-    storage = Storage.fromJson(json["Storage"]);
-    ram = Ram.fromJson(json["Ram"]);
-    camera = Camera.fromJson(json["Camera"]);
-    battery = Battery.fromJson(json["Battery"]);
-    operatingSystem = OperatingSystem.fromJson(json["OperatingSystem"]);
-    connectivity = Connectivity.fromJson(json["Connectivity"]);
-    warranty = Warranty.fromJson(json["Warranty"]);
+    screen = Screen.fromJson(json["screen"]);
+    storage = Storage.fromJson(json["storage"]);
+    ram = Ram.fromJson(json["ram"]);
+    camera = (json["camera"] != null ? Camera.fromJson(json["camera"]):null);
+    graphics = (json["graphics"] != null ? Graphics.fromJson(json["graphics"]):null);
+
+    battery = Battery.fromJson(json["battery"]);
+    operatingSystem = OperatingSystem.fromJson(json["operatingSystem"]);
+    connectivity = Connectivity.fromJson(json["connectivity"]);
+    warranty = Warranty.fromJson(json["warranty"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -158,7 +161,7 @@ class Specs {
 
 class Screen {
   late String type;
-  late int size;
+  late num size;
   late String resolution;
 
   Screen.fromJson(Map<String, dynamic> json) {
@@ -236,8 +239,8 @@ class Camera {
   late Front front;
 
   Camera.fromJson(Map<String, dynamic> json) {
-    rear = Rear.fromJson(json["Rear"]);
-    front = Front.fromJson(json["Front"]);
+    rear = Rear.fromJson(json["rear"]);
+    front = Front.fromJson(json["front"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -251,6 +254,13 @@ class Camera {
   @override
   String toString() {
     return "Rear: $rear\nFront: $front";
+  }
+}
+class Graphics{
+  late String type;
+
+  Graphics.fromJson(Map<String, dynamic>json ){
+    type = json["type"];
   }
 }
 
@@ -308,7 +318,7 @@ class Battery {
   Battery.fromJson(Map<String, dynamic> json) {
     capacity = json["capacity"];
     type = json["type"];
-    charging = Charging.fromJson(json["Charging"]);
+    charging = Charging.fromJson(json["charging"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -328,7 +338,7 @@ class Battery {
 
 class Charging {
   late String type;
-  late String wattage;
+  late num wattage;
 
   Charging.fromJson(Map<String, dynamic> json) {
     type = json["type"];
@@ -352,7 +362,7 @@ class Charging {
 class OperatingSystem {
   late String name;
   late String version;
-  late String customSkin;
+  late String? customSkin;
 
   OperatingSystem.fromJson(Map<String, dynamic> json) {
     name = json["name"];
@@ -378,12 +388,19 @@ class OperatingSystem {
 class Connectivity {
   late String wifi;
   late String bluetooth;
-  late bool nfc;
+  late bool? nfc;
+  late UsbPorts? usbPorts;
+  late num? thunderboltPort;
+  late bool? hdmi;
 
   Connectivity.fromJson(Map<String, dynamic> json) {
     wifi = json["wifi"];
     bluetooth = json["bluetooth"];
     nfc = json["nfc"];
+    usbPorts = (json["usbPorts"] != null ? UsbPorts.fromJson(json["usbPorts"]):null);
+    thunderboltPort = json["thunderboltPort"];
+    hdmi = json["hdmi"];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -398,6 +415,15 @@ class Connectivity {
   @override
   String toString() {
     return "Wi Fi: $wifi\nBluetooth: $bluetooth\nNFC: $nfc";
+  }
+}
+class UsbPorts{
+  late num typeA;
+  late num typeC;
+
+  UsbPorts.fromJson(Map<String, dynamic> json) {
+    typeA = json["typeA"];
+    typeC = json["typeC"];
   }
 }
 
